@@ -13,7 +13,6 @@ class ToDo extends Component {
     })
   };
   render() {
-      console.log(this.state);
     return (
       <div>
         <AddNewTask handleSubmit={this.handleSubmit} />

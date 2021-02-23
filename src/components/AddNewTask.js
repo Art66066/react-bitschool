@@ -13,16 +13,14 @@ class AddNewTask extends Component {
     });
   };
 
-  //   handleSave = () => {
-  //     this.setState({
-  //       tasks: [...this.state.tasks, this.state.inputValue],
-  //       inputValue: ""
-  //     });
-  //   };
-
   handleSub = () => {
     const { handleSubmit } = this.props
     handleSubmit(this.state.inputValue)
+    this.setState({
+      tasks: [...this.state.tasks, this.state.inputValue],
+      inputValue: ""
+    });
+    
   }
 
   render() {
