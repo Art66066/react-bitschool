@@ -21,6 +21,11 @@ export default class AddTask extends Component {
             inputValue: ""
         })
     }
+    handleKeyPress = (event) => {
+        if(event.key === 'Enter'){
+          this.handleS()
+        }
+      }
     render() {
         return (
             <div className={styles.div}>
@@ -30,6 +35,7 @@ export default class AddTask extends Component {
                     placeholder="Add task"
                     onChange={this.handleChange}
                     value={this.state.inputValue}
+                    onKeyPress={this.handleKeyPress}
                     />
                     <button onClick={this.handleS}>Add</button>
                 </div>

@@ -1,12 +1,9 @@
 .div {
-    display: flex;
-    flex-direction: column;
     background-color: rgb(76, 103, 104);
 }
 
 .heading1 {
-    display: flex;
-    justify-content: center;
+
     font-family: 'Courier New', Courier, monospace;
     
 }
@@ -15,7 +12,5 @@
     height: 2rem;
 }
 .div2 {
-    display: flex;
-    justify-content: center;
 }
 

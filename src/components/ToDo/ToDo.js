@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import AddTask from '../AddTask/AddTask';
-import Task from "../Task/Task"
-import styles from './todo.module.css'
+import Task from "../Task/Task";
+import styles from './todo.module.css';
+import {Container, Row, Col} from 'react-bootstrap'
 
 
 export default class ToDo extends Component {
@@ -18,14 +19,25 @@ export default class ToDo extends Component {
 
     render() {
         const tasksJSX = this.state.tasks.map(function (task, index) {
-            return <Task task={task} key1={index} key={index}/>
-        });
+            return <Col key={index} xs={12} sm={6} md={4} lg={3} >
+                    <Task task={task} key1={index}/> 
+                </Col>});
         return (
-            <div>
-                <h1 className={styles.h1}>My ToDos</h1>
-                <AddTask handleSubmit={this.handleSubmit} />
-                <div>{tasksJSX}</div>
-            </div>
+            <Container fluid={true}>
+                <Row>
+                    <Col>
+                    <h1 className={styles.h1}>My ToDos</h1>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <AddTask handleSubmit={this.handleSubmit} />
+                    </Col>
+                </Row>
+                <Row>
+                    {tasksJSX}
+                </Row>
+            </Container>
         )
     }
 }
