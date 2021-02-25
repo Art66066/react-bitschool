@@ -1,0 +1,8 @@
+.h1 {
+    display: flex;
+    justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 3rem;
+    background-color: rgb(138, 115, 85);
+    margin-bottom: 0%;
+}

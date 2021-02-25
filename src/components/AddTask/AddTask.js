@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import styles from './addtask.module.css'
 
 export default class AddTask extends Component {
     state = {
@@ -22,10 +23,10 @@ export default class AddTask extends Component {
     }
     render() {
         return (
-            <div>
-               <h1>Add Task Component</h1>
-               <div>
-                    <input type="text" 
+            <div className={styles.div}>
+               <h1 className={styles.heading1}>Add Task Below</h1>
+               <div className={styles.div2}>
+                    <input className={styles.input} type="text" 
                     placeholder="Add task"
                     onChange={this.handleChange}
                     value={this.state.inputValue}
