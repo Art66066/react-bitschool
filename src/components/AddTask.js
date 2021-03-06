@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Button, Form} from "react-bootstrap";
-import {Container,Row,Col} from 'react-bootstrap'
 
 class AddTask extends Component {
     state = {
@@ -24,19 +23,20 @@ class AddTask extends Component {
             })
         }
     }
+    keyenter = (e) => {
+        if (e.key === "Enter"){
+            this.handleCl()
+        }
+    }
 
     render() {
         return (
-            <Container fluid={true}>
-                <Row>
-                    <Col>
-                        <Form.Control type="text" placeholder="add task here" onChange={this.handleChange} value={this.state.inputValue} />
-                    </Col>
-                    <Col>
-                        <Button variant="primary" type="submit" onClick={this.handleCl}>Add</Button>
-                    </Col>
-                </Row>
-            </Container>
+            <div style={{display:"flex"}}>
+                
+                    <Form.Control type="text" placeholder="add task here" onChange={this.handleChange} onKeyPress={this.keyenter} value={this.state.inputValue} style={{width: "40%", backgroundColor: "black",color: "white"}} />
+                    <Button variant="info" type="submit" onClick={this.handleCl}>Add</Button>
+                
+            </div>
         )
     }
 }
