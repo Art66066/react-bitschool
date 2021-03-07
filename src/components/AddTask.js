@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {Button, Form} from "react-bootstrap";
 
-class AddTask extends Component {
+class AddTask extends PureComponent {
     state = {
         inputValue: ""
     }
@@ -34,7 +34,7 @@ class AddTask extends Component {
             <div style={{display:"flex"}}>
                 
                     <Form.Control type="text" placeholder="add task here" onChange={this.handleChange} onKeyPress={this.keyenter} value={this.state.inputValue} style={{width: "40%", backgroundColor: "black",color: "white"}} />
-                    <Button variant="info" type="submit" onClick={this.handleCl}>Add</Button>
+                    <Button variant="info" type="submit" onClick={this.handleCl} disabled={this.props.checkedTasks.size}>Add</Button>
                 
             </div>
         )
