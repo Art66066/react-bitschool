@@ -5,9 +5,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(52, 69, 70);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.task {
+  background-color: #17a2b8;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+.delbutton {
+ width: 40px;
 }

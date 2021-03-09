@@ -1,28 +1,41 @@
-import styles from "./task.module.css";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Form, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { memo } from "react";
+import PropTypes from "prop-types";
 
-const Task = function (props) {
-  const handleDelete = (e) => {
-    props.handleDeleteTask(props.task._id);
-  };
+function Task(props) {
   return (
-    <div className={styles.tasks}>
-      <div className={styles.div}>
-        <p>{props.key1 + 1 + ".    " + props.task.title}</p>
-        <Form.Check type="checkbox" />
-      </div>
+    <div className="task">
+      <input
+        type="checkbox"
+        checked={!!props.isChecked}
+        style={{ marginLeft: "auto", height: "20px", width: "20px" }}
+        onChange={() => props.handleToggleChecked(props.task._id)}
+      ></input>
+      <p style={{ padding: "20px 25px" }}>
+        {props.id + 1 + ". " + props.task.text}
+      </p>
       <Button
-        size="sm"
         variant="danger"
-        className={styles.btn}
-        onClick={handleDelete}
+        className="delbutton"
+        onClick={() => props.deleteTask(props.task._id)}
+        disabled={props.checkedTasks.size}
       >
-        <FontAwesomeIcon icon={faTrash} />
+        <FontAwesomeIcon icon={faTrash} style={{ fontSize: "15px" }} />
       </Button>
     </div>
   );
+}
+
+Task.propTypes = {
+  task: PropTypes.object,
+  id: PropTypes.number,
+  deleteTask: PropTypes.func,
+  handleToggleChecked: PropTypes.func,
+  checkedTasks: PropTypes.object,
+  isChecked: PropTypes.bool,
 };
 
-export default Task;
+export default memo(Task);

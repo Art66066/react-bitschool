@@ -1,47 +1,60 @@
-import React, { Component } from 'react'
-import styles from './addtask.module.css'
+import React, { PureComponent } from "react";
+import { Button, Form } from "react-bootstrap";
+import PropTypes from "prop-types";
 
-export default class AddTask extends Component {
-    state = {
-        inputValue: ""
-    }
+class AddTask extends PureComponent {
+  state = {
+    inputValue: "",
+  };
 
-    handleChange = (event) => {
-        const {value} = event.target;
-        this.setState({
-            inputValue: value
-        });
-    }
+  handleChange = (e) => {
+    this.setState({
+      inputValue: e.target.value,
+    });
+  };
 
-    handleS = () => {
-        if(!this.state.inputValue)
-            return
-        this.props.handleSubmit(this.state.inputValue);
-        this.setState({
-            inputValue: ""
-        })
+  handleCl = () => {
+    if (!this.state.inputValue) {
+      return;
+    } else {
+      this.props.handleClick(this.state.inputValue);
+      this.setState({
+        inputValue: "",
+      });
     }
-    handleKeyPress = (event) => {
-        if(event.key === 'Enter'){
-          this.handleS()
-        }
-      }
-    render() {
-        return (
-            <div className={styles.div}>
-               <h1 className={styles.heading1}>Add Task Below</h1>
-               <div className={styles.div2}>
-                    <input className={styles.input} type="text" 
-                    placeholder="Add task"
-                    onChange={this.handleChange}
-                    value={this.state.inputValue}
-                    onKeyPress={this.handleKeyPress}
-                    />
-                    <button onClick={this.handleS}>Add</button>
-                </div>
-            </div>
-        )
+  };
+  keyenter = (e) => {
+    if (e.key === "Enter") {
+      this.handleCl();
     }
+  };
+
+  render() {
+    return (
+      <div style={{ display: "flex" }}>
+        <Form.Control
+          type="text"
+          placeholder="add task here"
+          onChange={this.handleChange}
+          onKeyPress={this.keyenter}
+          value={this.state.inputValue}
+          style={{ width: "40%", backgroundColor: "black", color: "white" }}
+        />
+        <Button
+          variant="info"
+          type="submit"
+          onClick={this.handleCl}
+          disabled={this.props.checkedTasks.size}
+        >
+          Add
+        </Button>
+      </div>
+    );
+  }
 }
+AddTask.propTypes = {
+  handleClick: PropTypes.func,
+  checkedTasks: PropTypes.object,
+};
 
-
+export default AddTask;
