@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import {Button, Form} from "react-bootstrap";
+import PropTypes from 'prop-types'
 
 class AddTask extends PureComponent {
     state = {
@@ -39,6 +40,10 @@ class AddTask extends PureComponent {
             </div>
         )
     }
+}
+AddTask.propTypes = {
+    handleClick: PropTypes.func,
+    checkedTasks: PropTypes.object
 }
 
 export default AddTask
