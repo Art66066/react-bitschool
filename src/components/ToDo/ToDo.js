@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
-import AddTask from "../AddTask/AddTask";
 import Task from "../Task/Task";
+import AddTaskModal from "../AddTaskModal/AddTaskModal";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import idGenerator from "../../helpers/idGenerator";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
@@ -8,11 +9,17 @@ export class ToDo extends PureComponent {
   state = {
     tasks: [],
     checkedTasks: new Set(),
+    isConfirmOpen: false,
   };
-
-  handleClick = (value) => {
+  toggleOpenClose = () => {
+    this.setState({
+      isConfirmOpen: !this.state.isConfirmOpen,
+    });
+  };
+  
+  handleClick = (v1, v2) => {
     const tasks = [...this.state.tasks];
-    tasks.push({ text: value, _id: idGenerator() });
+    tasks.push({ title: v1, description: v2, _id: idGenerator() });
     this.setState({
       tasks: tasks,
     });
@@ -48,6 +55,7 @@ export class ToDo extends PureComponent {
       tasks: tasks,
       checkedTasks: new Set(),
     });
+    this.toggleOpenClose()
   };
   markOrUnmarkAll = () => {
     const { tasks } = this.state;
@@ -90,7 +98,7 @@ export class ToDo extends PureComponent {
         </Row>
         <Row className="mt-4 ml-4">
           <Col>
-            <AddTask
+            <AddTaskModal
               handleClick={this.handleClick}
               checkedTasks={this.state.checkedTasks}
             />
@@ -104,7 +112,7 @@ export class ToDo extends PureComponent {
             {this.state.tasks.length ? (
               <Button
                 variant="danger"
-                onClick={this.deleteAllChecked}
+                onClick={this.toggleOpenClose}
                 disabled={!this.state.checkedTasks.size}
               >
                 Delete all checked
@@ -131,6 +139,12 @@ export class ToDo extends PureComponent {
             )}
           </Col>
         </Row>
+        {this.state.isConfirmOpen && 
+        <ConfirmModal 
+        deleteAllChecked={this.deleteAllChecked} 
+        toggleOpenClose={this.toggleOpenClose}
+        checkedTasks={this.state.checkedTasks.size}
+        />}
       </Container>
     );
   }

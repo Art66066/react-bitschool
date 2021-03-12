@@ -6,6 +6,7 @@ import { memo } from "react";
 import PropTypes from "prop-types";
 
 function Task(props) {
+  console.log(props)
   return (
     <div className="task">
       <input
@@ -14,9 +15,10 @@ function Task(props) {
         style={{ marginLeft: "auto", height: "20px", width: "20px" }}
         onChange={() => props.handleToggleChecked(props.task._id)}
       ></input>
-      <p style={{ padding: "20px 25px" }}>
-        {props.id + 1 + ". " + props.task.text}
+      <p style={{ padding: "10px 25px",justifyContent:"center",margin:"auto" }}>
+        {props.id + 1 + ". " + props.task.title }
       </p>
+      <p style={{paddingBottom: "20px"}}>{props.task.description}</p>
       <Button
         variant="danger"
         className="delbutton"
