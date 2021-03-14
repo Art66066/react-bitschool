@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
 import { Modal, Button } from "react-bootstrap";
+import PropTypes from 'prop-types'
 
 class ConfirmModal extends PureComponent {
   render() {
@@ -25,6 +26,11 @@ class ConfirmModal extends PureComponent {
       </div>
     );
   }
+}
+ConfirmModal.propTypes = {
+  deleteAllChecked: PropTypes.func.isRequired,
+  toggleOpenClose: PropTypes.func.isRequired,
+  checkedTasks: PropTypes.number.isRequired
 }
 
 export default ConfirmModal;

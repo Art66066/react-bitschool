@@ -205,7 +205,6 @@ export class ToDo extends PureComponent {
         {this.state.editableTask && (
           <EditTaskModal
             editableTask={this.state.editableTask}
-            // handleClick={this.handleClick}
             closeEditModal={this.closeEditModal}
             editTask={this.editTask}
           />

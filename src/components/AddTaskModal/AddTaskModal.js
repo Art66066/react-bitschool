@@ -87,4 +87,10 @@ class AddTaskModal extends PureComponent {
   }
 }
 
+AddTaskModal.propTypes = {
+  handleClick: PropTypes.func.isRequired,
+checkedTasks: PropTypes.object.isRequired,
+toggleOpenAddModal: PropTypes.func.isRequired
+}
+
 export default AddTaskModal;

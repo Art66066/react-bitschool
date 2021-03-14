@@ -1,5 +1,6 @@
 import React, { Component, createRef } from "react";
 import { Button, Modal, FormControl, Form } from "react-bootstrap";
+import PropTypes from "prop-types";
 
 class EditTaskModal extends Component {
   constructor(props) {
@@ -80,5 +81,11 @@ class EditTaskModal extends Component {
     );
   }
 }
+
+    EditTaskModal.propTypes = {
+        editableTask: PropTypes.object.isRequired,
+        closeEditModal: PropTypes.func.isRequired,
+        editTask: PropTypes.func.isRequired
+    }
 
 export default EditTaskModal;
