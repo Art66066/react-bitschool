@@ -1,22 +1,35 @@
 import React, { PureComponent } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import idGenerator from "../../helpers/idGenerator";
 import Task from "../Task/Task";
 import AddTaskModal from "../AddTaskModal/AddTaskModal";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
-import idGenerator from "../../helpers/idGenerator";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import EditTaskModal from "../EditTaskModal/EditTaskModal";
 
 export class ToDo extends PureComponent {
   state = {
     tasks: [],
     checkedTasks: new Set(),
     isConfirmOpen: false,
+    isAddModalOpen: false,
+    editableTask: null,
+  };
+  setEdit = (task) => {
+    this.setState({
+      editableTask: task,
+    });
+  };
+  closeEditModal = () => {
+    this.setState({
+      editableTask: null,
+    });
   };
   toggleOpenClose = () => {
     this.setState({
       isConfirmOpen: !this.state.isConfirmOpen,
     });
   };
-  
+
   handleClick = (v1, v2) => {
     const tasks = [...this.state.tasks];
     tasks.push({ title: v1, description: v2, _id: idGenerator() });
@@ -55,7 +68,7 @@ export class ToDo extends PureComponent {
       tasks: tasks,
       checkedTasks: new Set(),
     });
-    this.toggleOpenClose()
+    this.toggleOpenClose();
   };
   markOrUnmarkAll = () => {
     const { tasks } = this.state;
@@ -71,6 +84,27 @@ export class ToDo extends PureComponent {
       checkedTasks,
     });
   };
+  toggleOpenAddModal = () => {
+    this.setState({
+      isAddModalOpen: !this.state.isAddModalOpen,
+    });
+  };
+
+  toggleEditModal = () => {
+    this.setState({
+      isEditTaskOpen: !this.state.isEditTaskOpen,
+    });
+  };
+  editTask = (editableTask) => {
+    const tasks = [...this.state.tasks];
+    const idx = tasks.findIndex((task) => {
+      return task._id === editableTask._id;
+    });
+    tasks[idx] = editableTask;
+    this.setState({
+      tasks,
+    });
+  };
 
   render() {
     const tasksJSX = this.state.tasks.map((task, index) => {
@@ -83,6 +117,8 @@ export class ToDo extends PureComponent {
             handleToggleChecked={this.handleToggleChecked}
             checkedTasks={this.state.checkedTasks}
             isChecked={this.state.checkedTasks.has(task._id)}
+            toggleEditModal={this.toggleEditModal}
+            setEdit={this.setEdit}
           />
         </Col>
       );
@@ -96,16 +132,36 @@ export class ToDo extends PureComponent {
             </h2>
           </Col>
         </Row>
+        <Row>
+          <Col>
+            <Button
+              className="mt-5"
+              variant="info"
+              onClick={this.toggleOpenAddModal}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                margin: "auto",
+              }}
+              disabled={this.state.checkedTasks.size}
+            >
+              Add task
+            </Button>
+          </Col>
+        </Row>
         <Row className="mt-4 ml-4">
           <Col>
-            <AddTaskModal
-              handleClick={this.handleClick}
-              checkedTasks={this.state.checkedTasks}
-            />
+            {this.state.isAddModalOpen && (
+              <AddTaskModal
+                handleClick={this.handleClick}
+                checkedTasks={this.state.checkedTasks}
+                toggleOpenAddModal={this.toggleOpenAddModal}
+              />
+            )}
           </Col>
         </Row>
         <Row className="mt-5 justify-content-center">
-          {tasksJSX.length ? tasksJSX : <h5> There are no Tasks !</h5>}
+          {tasksJSX.length ? tasksJSX : <h5> There are no tasks !</h5>}
         </Row>
         <Row className="mt-2">
           <Col>
@@ -139,12 +195,21 @@ export class ToDo extends PureComponent {
             )}
           </Col>
         </Row>
-        {this.state.isConfirmOpen && 
-        <ConfirmModal 
-        deleteAllChecked={this.deleteAllChecked} 
-        toggleOpenClose={this.toggleOpenClose}
-        checkedTasks={this.state.checkedTasks.size}
-        />}
+        {this.state.isConfirmOpen && (
+          <ConfirmModal
+            deleteAllChecked={this.deleteAllChecked}
+            toggleOpenClose={this.toggleOpenClose}
+            checkedTasks={this.state.checkedTasks.size}
+          />
+        )}
+        {this.state.editableTask && (
+          <EditTaskModal
+            editableTask={this.state.editableTask}
+            // handleClick={this.handleClick}
+            closeEditModal={this.closeEditModal}
+            editTask={this.editTask}
+          />
+        )}
       </Container>
     );
   }

@@ -13,11 +13,20 @@ code {
     monospace;
 }
 .task {
-  background-color: #17a2b8;
+  background-color: #2f638d;
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
 }
+.buttons {
+  display: flex;
+  flex-direction: row;
+}
 .delbutton {
  width: 40px;
 }
+.editbutton {
+  width: 40px;
+  margin-left: 2px;
+}
+

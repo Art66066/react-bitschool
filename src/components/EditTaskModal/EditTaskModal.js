@@ -1,14 +1,12 @@
-import React, { PureComponent, createRef } from "react";
-import { Modal, Button, Form, FormControl } from "react-bootstrap";
-import PropTypes from "prop-types";
+import React, { Component, createRef } from "react";
+import { Button, Modal, FormControl, Form } from "react-bootstrap";
 
-class AddTaskModal extends PureComponent {
+class EditTaskModal extends Component {
   constructor(props) {
     super(props);
     this.inputRef = createRef();
     this.state = {
-      title: "",
-      description: "",
+      ...props.editableTask,
     };
   }
 
@@ -22,14 +20,11 @@ class AddTaskModal extends PureComponent {
     if (!this.state.title) {
       return;
     } else {
-      this.props.handleClick(this.state.title, this.state.description);
-      this.setState({
-        title: "",
-        description: "",
-      });
-      this.props.toggleOpenAddModal();
+      this.props.editTask(this.state);
+      this.props.closeEditModal();
     }
   };
+
   keyenter = (e) => {
     if (e.key === "Enter") {
       this.handleCl();
@@ -38,14 +33,13 @@ class AddTaskModal extends PureComponent {
   componentDidMount() {
     this.inputRef.current.focus();
   }
-
   render() {
     return (
       <div>
         <Modal
           size="lg"
           show={true}
-          onHide={this.props.toggleOpenAddModal}
+          onHide={this.props.closeEditModal}
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
@@ -76,10 +70,10 @@ class AddTaskModal extends PureComponent {
             />
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={this.props.toggleOpenAddModal}>
-              Close
+            <Button variant="secondary" onClick={this.props.closeEditModal}>
+              Cancel Edit
             </Button>
-            <Button onClick={this.handleCl}>Add</Button>
+            <Button onClick={this.handleCl}>Save</Button>
           </Modal.Footer>
         </Modal>
       </div>
@@ -87,4 +81,4 @@ class AddTaskModal extends PureComponent {
   }
 }
 
-export default AddTaskModal;
+export default EditTaskModal;

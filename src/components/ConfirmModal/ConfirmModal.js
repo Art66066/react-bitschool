@@ -1,10 +1,7 @@
-import React, { Component } from "react";
-import {Modal,Button} from 'react-bootstrap'
+import React, { PureComponent } from "react";
+import { Modal, Button } from "react-bootstrap";
 
-class ConfirmModal extends Component {
-    
-
-    
+class ConfirmModal extends PureComponent {
   render() {
     return (
       <div>
@@ -12,7 +9,10 @@ class ConfirmModal extends Component {
           <Modal.Header closeButton>
             <Modal.Title>Confirm Delete</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Are you sure you want to delete {this.props.checkedTasks} of the tasks?</Modal.Body>
+          <Modal.Body>
+            Are you sure you want to delete {this.props.checkedTasks} of the
+            tasks?
+          </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.props.toggleOpenClose}>
               Cancel
