@@ -2,9 +2,8 @@ import React, { PureComponent } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import idGenerator from "../../helpers/idGenerator";
 import Task from "../Task/Task";
-import AddTaskModal from "../AddTaskModal/AddTaskModal";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
-import EditTaskModal from "../EditTaskModal/EditTaskModal";
+import TaskModal from "../TaskModal/TaskModal";
 
 export class ToDo extends PureComponent {
   state = {
@@ -30,9 +29,9 @@ export class ToDo extends PureComponent {
     });
   };
 
-  handleClick = (v1, v2) => {
+  handleClick = (value) => {
     const tasks = [...this.state.tasks];
-    tasks.push({ title: v1, description: v2, _id: idGenerator() });
+    tasks.push({ ...value, _id: idGenerator() });
     this.setState({
       tasks: tasks,
     });
@@ -136,7 +135,7 @@ export class ToDo extends PureComponent {
           <Col>
             <Button
               className="mt-5"
-              variant="info"
+              variant="primary"
               onClick={this.toggleOpenAddModal}
               style={{
                 display: "flex",
@@ -152,10 +151,10 @@ export class ToDo extends PureComponent {
         <Row className="mt-4 ml-4">
           <Col>
             {this.state.isAddModalOpen && (
-              <AddTaskModal
-                handleClick={this.handleClick}
+              <TaskModal
+                onSubmit={this.handleClick}
                 checkedTasks={this.state.checkedTasks}
-                toggleOpenAddModal={this.toggleOpenAddModal}
+                onHide={this.toggleOpenAddModal}
               />
             )}
           </Col>
@@ -203,10 +202,10 @@ export class ToDo extends PureComponent {
           />
         )}
         {this.state.editableTask && (
-          <EditTaskModal
+          <TaskModal
             editableTask={this.state.editableTask}
-            closeEditModal={this.closeEditModal}
-            editTask={this.editTask}
+            onHide={this.closeEditModal}
+            onSubmit={this.editTask}
           />
         )}
       </Container>

@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(52, 69, 70);
+  background-color: rgb(38, 67, 78);
 }
 
 code {
@@ -13,7 +13,7 @@ code {
     monospace;
 }
 .task {
-  background-color: #2f638d;
+  background-color: #1e5388;
   margin-bottom: 15px;
   display: flex;
   flex-direction: column;
