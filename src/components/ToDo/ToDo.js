@@ -11,8 +11,9 @@ export class ToDo extends PureComponent {
     checkedTasks: new Set(),
     isConfirmOpen: false,
     isAddModalOpen: false,
-    editableTask: null,
+    editableTask: null
   };
+
   setEdit = (task) => {
     this.setState({
       editableTask: task,
@@ -153,7 +154,6 @@ export class ToDo extends PureComponent {
             {this.state.isAddModalOpen && (
               <TaskModal
                 onSubmit={this.handleClick}
-                checkedTasks={this.state.checkedTasks}
                 onHide={this.toggleOpenAddModal}
               />
             )}
