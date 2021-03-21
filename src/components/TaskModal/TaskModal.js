@@ -1,6 +1,7 @@
 import React, { PureComponent, createRef } from "react";
 import { Modal, Button, Form, FormControl } from "react-bootstrap";
 import PropTypes from "prop-types";
+import DatePicker from "react-datepicker";
 
 class TaskModal extends PureComponent {
   constructor(props) {
@@ -9,8 +10,14 @@ class TaskModal extends PureComponent {
     this.state = {
       title: "",
       description: "",
+      date: new Date(),
       ...props.editableTask
     };
+  }
+  setDate = (date) => {
+    this.setState({
+      date
+    })
   }
 
   handleChange = (e) => {
@@ -75,6 +82,7 @@ class TaskModal extends PureComponent {
               style={{ resize: "none", height: "110px" }}
               value={this.state.description}
             />
+            <DatePicker selected={this.state.date} onChange={date => this.setDate(date)} />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.props.onHide}>
