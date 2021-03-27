@@ -1,6 +1,6 @@
 import React, { PureComponent, createRef } from "react";
 import { Modal, Button, Form, FormControl } from "react-bootstrap";
-import PropTypes from "prop-types";
+import dateFormatter from '../../helpers/dateFormatter';
 import DatePicker from "react-datepicker";
 
 class TaskModal extends PureComponent {
@@ -30,7 +30,11 @@ class TaskModal extends PureComponent {
     if (!this.state.title) {
       return;
     } else {
-      this.props.onSubmit(this.state);
+      const formData = {
+        ...this.state,
+        date: dateFormatter(this.state.date)
+      }
+      this.props.onSubmit(formData);
       this.setState({
         title: "",
         description: "",

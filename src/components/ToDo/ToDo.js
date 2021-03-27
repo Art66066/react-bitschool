@@ -32,7 +32,7 @@ export class ToDo extends PureComponent {
 
   handleClick = (value) => {
     const tasks = [...this.state.tasks];
-    tasks.push({ ...value, _id: idGenerator() });
+    tasks.push({ ...value});
     this.setState({
       tasks: tasks,
     });
