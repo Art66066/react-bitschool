@@ -1,9 +1,10 @@
 import React, { PureComponent } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import idGenerator from "../../helpers/idGenerator";
 import Task from "../Task/Task";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import TaskModal from "../TaskModal/TaskModal";
+
+const url = "http://localhost:3001";
 
 export class ToDo extends PureComponent {
   state = {
@@ -11,12 +12,16 @@ export class ToDo extends PureComponent {
     checkedTasks: new Set(),
     isConfirmOpen: false,
     isAddModalOpen: false,
-    editableTask: null
+    editableTask: null,
   };
 
   setEdit = (task) => {
+    const formData = {
+      ...task,
+      date: new Date(task.date),
+    };
     this.setState({
-      editableTask: task,
+      editableTask: formData,
     });
   };
   closeEditModal = () => {
@@ -31,21 +36,47 @@ export class ToDo extends PureComponent {
   };
 
   handleClick = (value) => {
-    const tasks = [...this.state.tasks];
-    tasks.push({ ...value});
-    this.setState({
-      tasks: tasks,
-    });
+    fetch(`${url}/task`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(value),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) {
+          throw data.error;
+        } else {
+          const tasks = [...this.state.tasks];
+          tasks.push(data);
+          this.setState({
+            tasks: tasks,
+          });
+        }
+      })
+      .catch((error) => console.log("catch error", error));
   };
 
-  deleteTask = (value) => {
-    let tasks = [...this.state.tasks];
-    tasks = tasks.filter((task) => {
-      return task._id !== value;
-    });
-    this.setState({
-      tasks,
-    });
+  deleteTask = (id) => {
+    fetch(`${url}/task/${id}`, {
+      method: "DELETE",
+      "Content-Type": "application/json",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) throw data.error;
+        let tasks = [...this.state.tasks];
+        tasks = tasks.filter((task) => {
+          return task._id !== id;
+        });
+        this.setState({
+          tasks,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   handleToggleChecked = (value) => {
     let checkedTasks = new Set(this.state.checkedTasks);
@@ -60,16 +91,28 @@ export class ToDo extends PureComponent {
   };
 
   deleteAllChecked = () => {
-    let tasks = [...this.state.tasks];
-    tasks = tasks.filter((task) => {
-      return !this.state.checkedTasks.has(task._id);
-    });
-    this.setState({
-      tasks: tasks,
-      checkedTasks: new Set(),
-    });
-    this.toggleOpenClose();
+    fetch(`${url}/task`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ tasks: Array.from(this.state.checkedTasks) }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) throw data.error;
+        let tasks = [...this.state.tasks];
+        tasks = tasks.filter((task) => {
+          return !this.state.checkedTasks.has(task._id);
+        });
+        this.setState({
+          tasks: tasks,
+          checkedTasks: new Set(),
+        });
+        this.toggleOpenClose();
+      });
   };
+
   markOrUnmarkAll = () => {
     const { tasks } = this.state;
     let checkedTasks = new Set(this.state.checkedTasks);
@@ -96,15 +139,40 @@ export class ToDo extends PureComponent {
     });
   };
   editTask = (editableTask) => {
-    const tasks = [...this.state.tasks];
-    const idx = tasks.findIndex((task) => {
-      return task._id === editableTask._id;
-    });
-    tasks[idx] = editableTask;
-    this.setState({
-      tasks,
-    });
+    fetch(`${url}/task/${editableTask._id}`, {
+      method: "PUT",
+      body: JSON.stringify(editableTask),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) throw data.error;
+        const tasks = [...this.state.tasks];
+        const idx = tasks.findIndex((task) => {
+          return task._id === data._id;
+        });
+        tasks[idx] = data;
+        this.setState({
+          tasks,
+        });
+      });
   };
+
+  componentDidMount() {
+    fetch(`${url}/task`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.error) throw data.error;
+        this.setState({
+          tasks: data,
+        });
+      })
+      .catch((error) => {
+        console.log("catch error", error);
+      });
+  }
 
   render() {
     const tasksJSX = this.state.tasks.map((task, index) => {

@@ -27,6 +27,9 @@ function Task(props) {
         {props.id + 1 + ". " + props.task.title}
       </p>
       <p style={{ paddingBottom: "20px" }}>{props.task.description}</p>
+      <p style={{ paddingBottom: "20px" }}>
+        Date: {props.task.date.slice(0, 10)}
+      </p>
       <div className="buttons">
         <Button
           variant="danger"
